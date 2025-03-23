@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="author" content="Bwenedian">
+  <title>Scratch 2.0 Editor</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+    #player {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    #loadingBackground {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+    #loadingText {
+      color: #808080;
+      font-size: 40px;
+      font-family: 'Courier New', Courier, monospace;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      font-weight: bold;
+      padding: 20px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    window.RufflePlayer = window.RufflePlayer || {};
+    window.RufflePlayer.config = {
+        "autoplay": "on",
+        "unmuteOverlay": "hidden",
+        "contextMenu": "off",
+        "splashscreen": false
+    };
+
+    const loadingMessages = ["Loading Flash", "Loading Flash.", "Loading Flash..", "Loading Flash..."];
+    let currentMessageIndex = 0;
+
+    // Function to cycle through loading messages
+    function cycleLoadingMessages() {
+      const loadingText = document.getElementById("loadingText");
+      loadingText.innerText = loadingMessages[currentMessageIndex];
+      currentMessageIndex = (currentMessageIndex + 1) % loadingMessages.length;
+    }
+
+    // Change the loading text every 500 milliseconds (you can adjust this as needed)
+    setInterval(cycleLoadingMessages, 500);
+
+    window.addEventListener("load", () => {
+        const loadingBackground = document.getElementById("loadingBackground");
+        loadingBackground.style.display = "flex";
+
+        const ruffle = window.RufflePlayer.newest();
+        const player = ruffle.createPlayer();
+        document.getElementById("player").appendChild(player);
+
+        player.load("https://cdn.glitch.global/bbf92a3c-3b37-4e15-89b1-3813cc5a5fe4/Scratch%2012.swf?v=1742657296857");
+
+        player.style.width = "100%";
+        player.style.height = "100%";
+
+        // Add a 5-second delay before removing the loading screen
+        setTimeout(() => {
+            loadingBackground.style.display = "none";
+        }, 5000); // Wait for 5 seconds before hiding the loading screen
+        
+        player.addEventListener("load", () => {
+            // Hide the loading screen when the SWF is fully loaded
+            loadingBackground.style.display = "none";
+        });
+    });
+  </script>
+  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+</body>
+</html>

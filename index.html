@@ -73,7 +73,10 @@
         "unmuteOverlay": "hidden",
         "contextMenu": "off",
         "splashscreen": false,
-        "quality": "low" // Forces low-resolution mode for better performance
+        "quality": "low", // Forces low-resolution mode for better performance
+        "maxExecutionDuration": 15, // Prevents lag spikes from long scripts
+        "letterbox": "off", // Disables black bars
+        "forceScale": "exactFit" // Stretches SWF to fit screen, reduces rendering load
     };
 
     const loadingMessages = ["Loading Flash", "Loading Flash.", "Loading Flash..", "Loading Flash..."];

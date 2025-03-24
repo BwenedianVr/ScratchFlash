@@ -59,13 +59,21 @@
   </style>
 </head>
 <body>
+  <div id="container">
+    <div id="loadingBackground">
+      <div id="loadingText">Loading Flash</div>
+    </div>
+    <div id="player"></div>
+  </div>
+
   <script>
     window.RufflePlayer = window.RufflePlayer || {};
     window.RufflePlayer.config = {
         "autoplay": "on",
         "unmuteOverlay": "hidden",
         "contextMenu": "off",
-        "splashscreen": false
+        "splashscreen": false,
+        "quality": "low" // Forces low-resolution mode for better performance
     };
 
     const loadingMessages = ["Loading Flash", "Loading Flash.", "Loading Flash..", "Loading Flash..."];
@@ -78,7 +86,7 @@
       currentMessageIndex = (currentMessageIndex + 1) % loadingMessages.length;
     }
 
-    // Change the loading text every 500 milliseconds (you can adjust this as needed)
+    // Change the loading text every 500 milliseconds
     setInterval(cycleLoadingMessages, 500);
 
     window.addEventListener("load", () => {
@@ -89,7 +97,7 @@
         const player = ruffle.createPlayer();
         document.getElementById("player").appendChild(player);
 
-        player.load("https://cdn.glitch.global/bbf92a3c-3b37-4e15-89b1-3813cc5a5fe4/Scratch%2012.swf?v=1742657296857");
+        player.load("Scratch.swf");
 
         player.style.width = "100%";
         player.style.height = "100%";
@@ -97,7 +105,7 @@
         // Add a 5-second delay before removing the loading screen
         setTimeout(() => {
             loadingBackground.style.display = "none";
-        }, 5000); // Wait for 5 seconds before hiding the loading screen
+        }, 5000);
         
         player.addEventListener("load", () => {
             // Hide the loading screen when the SWF is fully loaded
